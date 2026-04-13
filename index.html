@@ -10,8 +10,14 @@ body {
     font-family: sans-serif;
     background: #f5f5f5;
 }
-#wheel {
+
+#wrapper {
+    position: relative;
+    width: 320px;
     margin: 30px auto;
+}
+
+#wheel {
     width: 320px;
     height: 320px;
     border-radius: 50%;
@@ -20,6 +26,7 @@ body {
     overflow: hidden;
     transition: transform 3s ease-out;
 }
+
 .slice {
     position: absolute;
     width: 50%;
@@ -28,6 +35,25 @@ body {
     background: #87CEFA;
     border: 1px solid #fff;
 }
+
+#labels {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 320px;
+    height: 320px;
+    pointer-events: none;
+}
+
+.label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: center;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
 button {
     padding: 12px 20px;
     font-size: 16px;
@@ -37,6 +63,7 @@ button {
     background: #333;
     color: white;
 }
+
 #result {
     margin-top: 20px;
     font-size: 20px;
@@ -51,10 +78,11 @@ button {
 <button onclick="start()">📍 抓位置</button>
 <button onclick="spin()" id="spinBtn" disabled>🎯 開轉</button>
 
-<div style="position:relative; width:320px; margin:auto;">
+<div id="wrapper">
     <div id="wheel"></div>
     <div id="labels"></div>
 </div>
+
 <div id="result"></div>
 
 <script>
@@ -85,27 +113,29 @@ function start() {
 
 function drawWheel() {
     const wheel = document.getElementById("wheel");
+    const labels = document.getElementById("labels");
+
     wheel.innerHTML = "";
+    labels.innerHTML = "";
+
     let sliceAngle = 360 / restaurants.length;
 
     restaurants.forEach((r, i) => {
+        // 畫區塊
         let div = document.createElement("div");
         div.className = "slice";
         div.style.transform =
             `rotate(${i * sliceAngle}deg) skewY(${90 - sliceAngle}deg)`;
-        div.innerHTML =
-`<span style="
-position:absolute;
-left:50%;
-top:50%;
-transform: rotate(${sliceAngle/2}deg) translate(-50%, -50%);
-transform-origin: center;
-font-size:12px;
-white-space:nowrap;
-">
-${r.name}
-</span>`;
         wheel.appendChild(div);
+
+        // 畫文字（獨立層）
+        let label = document.createElement("div");
+        label.className = "label";
+        label.style.transform =
+            `rotate(${i * sliceAngle + sliceAngle / 2}deg) translate(0, -120px) rotate(90deg)`;
+        label.innerText = r.name;
+
+        labels.appendChild(label);
     });
 }
 
