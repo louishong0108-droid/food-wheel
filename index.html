@@ -51,7 +51,10 @@ button {
 <button onclick="start()">📍 抓位置</button>
 <button onclick="spin()" id="spinBtn" disabled>🎯 開轉</button>
 
-<div id="wheel"></div>
+<div style="position:relative; width:320px; margin:auto;">
+    <div id="wheel"></div>
+    <div id="labels"></div>
+</div>
 <div id="result"></div>
 
 <script>
