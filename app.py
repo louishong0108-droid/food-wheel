@@ -16,7 +16,7 @@ def restaurants():
 
     overpass_url = "https://overpass-api.de/api/interpreter"
 
-    query = f'''
+    query = f"""
     [out:json];
     (
       node["amenity"="restaurant"](around:{radius},{lat},{lon});
@@ -24,7 +24,7 @@ def restaurants():
       node["amenity"="cafe"](around:{radius},{lat},{lon});
     );
     out;
-    '''
+    """
 
     res = requests.post(overpass_url, data=query)
     data = res.json()
