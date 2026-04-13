@@ -91,7 +91,17 @@ function drawWheel() {
         div.style.transform =
             `rotate(${i * sliceAngle}deg) skewY(${90 - sliceAngle}deg)`;
         div.innerHTML =
-            `<span style="position:absolute; left:10px; top:10px; font-size:12px;">${r.name}</span>`;
+`<span style="
+position:absolute;
+left:50%;
+top:50%;
+transform: rotate(${sliceAngle/2}deg) translate(-50%, -50%);
+transform-origin: center;
+font-size:12px;
+white-space:nowrap;
+">
+${r.name}
+</span>`;
         wheel.appendChild(div);
     });
 }
