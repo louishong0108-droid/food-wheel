@@ -36,12 +36,25 @@ a {
     margin-top: 10px;
     font-size: 18px;
 }
+
+#sliderBox {
+    margin-top: 20px;
+}
+
+input[type=range] {
+    width: 250px;
+}
 </style>
 </head>
 
 <body>
 
 <h1>🍜 今天吃什麼</h1>
+
+<div id="sliderBox">
+    <p>搜尋範圍：<span id="radiusText">500</span> 公尺</p>
+    <input type="range" min="100" max="1000" step="50" value="500" id="radiusSlider">
+</div>
 
 <button onclick="getLocation()">📍 取得位置</button>
 <button onclick="pickFood()" id="pickBtn" disabled>🎲 隨機抽一間</button>
@@ -50,6 +63,16 @@ a {
 
 <script>
 let restaurants = [];
+let radius = 500;
+
+// 滑桿控制
+const slider = document.getElementById("radiusSlider");
+const text = document.getElementById("radiusText");
+
+slider.oninput = function() {
+    radius = this.value;
+    text.innerText = radius;
+};
 
 function getLocation() {
     navigator.geolocation.getCurrentPosition(pos => {
@@ -59,7 +82,7 @@ function getLocation() {
             body: JSON.stringify({
                 lat: pos.coords.latitude,
                 lon: pos.coords.longitude,
-                radius: 500
+                radius: radius
             })
         })
         .then(res => res.json())
